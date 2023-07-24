@@ -77,7 +77,8 @@ export const CreateRecipe = () => {
         <input type="text" id="imageUrl" name="imageUrl" value={recipe.imageUrl} onChange={handleChange} />
         <label htmlFor="cookingTime">Cooking Time (minutes)</label>
         <input type="number" id="cookingTime" name="cookingTime" value={recipe.cookingTime} onChange={handleChange} />
-        <button type="submit">Create Recipe</button>
+        <br />
+        <button type="submit" className="submit-button">Create Recipe</button>
       </form>
     </div>
   );
