@@ -26,13 +26,19 @@ export const CreateRecipe = () => {
 
   const handleIngredientChange = (event, idx) => {
     const { value } = event.target;
-    const ingredients = recipe.ingredients;
+    const ingredients = [...recipe.ingredients];
     ingredients[idx] = value;
     setRecipe({ ...recipe, ingredients });
   };
 
   const addIngredient = () => {
     setRecipe({ ...recipe, ingredients: [...recipe.ingredients, ""] });
+  };
+
+  const deleteIngredient = (idx) => {
+    const ingredients = [...recipe.ingredients];
+    ingredients.splice(idx, 1);
+    setRecipe({ ...recipe, ingredients });
   };
 
   const onSubmit = async (event) => {
@@ -54,7 +60,15 @@ export const CreateRecipe = () => {
         <input type="text" id="name" name="name" value={recipe.name} onChange={handleChange} />
         <label htmlFor="ingredients">Ingredients</label>
         {recipe.ingredients.map((ingredient, idx) => (
-          <input key={idx} type="text" name="ingredients" value={ingredient} onChange={(event) => handleIngredientChange(event, idx)} />
+          <div key={idx}>
+            <input
+              type="text"
+              name="ingredients"
+              value={ingredient}
+              onChange={(event) => handleIngredientChange(event, idx)}
+            />
+            <button type="button" onClick={() => deleteIngredient(idx)}>Remove</button>
+          </div>
         ))}
         <button onClick={addIngredient} type="button"> Add Ingredients </button>
         <label htmlFor="instructions">Instructions</label>
