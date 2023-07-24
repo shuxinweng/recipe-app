@@ -45,6 +45,20 @@ export const Home = () => {
     }
   };
 
+  const unsaveRecipe = async (recipeID) => {
+    try {
+      const response = await axios.delete("http://localhost:3001/recipes", {
+        data: {
+          recipeID,
+          userID,
+        },
+      });
+      setSavedRecipes(response.data.savedRecipes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const isRecipeSaved = (id) => savedRecipes.includes(id);
 
   return (
@@ -55,9 +69,11 @@ export const Home = () => {
           <li key={recipe._id}>
             <div>
               <h2>{recipe.name}</h2>
-              <button onClick={() => saveRecipe(recipe._id)} disabled={isRecipeSaved(recipe._id)}> 
-                {isRecipeSaved(recipe._id) ? "Saved" : "Save"}
-              </button>
+              {isRecipeSaved(recipe._id) ? (
+                <button onClick={() => unsaveRecipe(recipe._id)}>Unsave</button>
+              ) : (
+                <button onClick={() => saveRecipe(recipe._id)}>Save</button>
+              )}
             </div>
             <div className="instructions">
               <p>{recipe.instructions}</p>

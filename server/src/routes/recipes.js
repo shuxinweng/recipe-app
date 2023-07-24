@@ -37,6 +37,18 @@ router.put("/", verifyToken, async (req, res) => {
     }
 });
 
+router.delete("/", async (req, res) => {
+    try {
+        const recipe = await RecipeModel.findById(req.body.recipeID);
+        const user = await UserModel.findById(req.body.userID);
+        user.savedRecipes = user.savedRecipes.filter((savedRecipe) => savedRecipe.toString() !== req.body.recipeID);
+        await user.save();
+        res.json({ savedRecipes: user.savedRecipes });
+    } catch (err) {
+        res.json(err);
+    }
+});
+
 router.get("/savedRecipes/ids/:userID", async (req, res) => {
     try {
         const user = await UserModel.findById(req.params.userID);
